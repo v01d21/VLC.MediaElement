@@ -1,5 +1,5 @@
 # VLC.MediaElement for UWP
-Chromecast support added. (Original at [here](https://github.com/kakone/VLC.MediaElement))
+MediaElement clone with Chromecast support powered by VLC. (Original at [here](https://github.com/kakone/VLC.MediaElement))
 
 It's just a little control, all the hard work is done by [kakone](https://github.com/kakone) and [VLC](https://code.videolan.org/videolan/vlc-winrt). So, thanks to the VLC team !
 
