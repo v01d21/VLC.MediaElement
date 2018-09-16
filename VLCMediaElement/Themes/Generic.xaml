@@ -780,6 +780,13 @@
                                                               Style='{StaticResource AppBarButtonStyle}' Icon="NewWindow"
                                                               MediaTransportControlsHelper.DropoutOrder='12'>
                                                 </AppBarButton>
+                                                <AppBarButton x:Name='CastButton'
+                                                Style='{StaticResource AppBarButtonStyle}'
+                                                MediaTransportControlsHelper.DropoutOrder='17'>
+                                                    <AppBarButton.Icon>
+                                                        <FontIcon x:Name="CastSymbol" FontFamily="Segoe MDL2 Assets" Glyph="&#xEC15;"/>
+                                                    </AppBarButton.Icon>
+                                                </AppBarButton>
                                                 <AppBarButton x:Name='FullWindowButton'
                                                 Style='{StaticResource AppBarButtonStyle}'
                                                 MediaTransportControlsHelper.DropoutOrder='17'>

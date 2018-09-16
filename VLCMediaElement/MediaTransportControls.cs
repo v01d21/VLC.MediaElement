@@ -68,6 +68,7 @@ namespace VLC
         private FrameworkElement PlayPauseButton { get; set; }
         private FrameworkElement PlayPauseButtonOnLeft { get; set; }
         private FrameworkElement ZoomButton { get; set; }
+        private FrameworkElement CastButton { get; set; }
         private FrameworkElement FullWindowButton { get; set; }
         private FrameworkElement CompactOverlayModeButton { get; set; }
         private FrameworkElement StopButton { get; set; }
@@ -270,6 +271,34 @@ namespace VLC
         {
             get => (bool)GetValue(IsZoomEnabledProperty);
             set => SetValue(IsZoomEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsCastButtonVisibleProperty"/> dependency property.
+        /// </summary>
+        public static DependencyProperty IsCastButtonVisibleProperty { get; } = DependencyProperty.Register(nameof(IsCastButtonVisibleProperty), typeof(bool), typeof(MediaTransportControls),
+            new PropertyMetadata(true, (d, e) => ((MediaTransportControls)d).UpdateCastButton()));
+        /// <summary>
+        /// Gets or sets a value indicating whether the full screen button is shown.
+        /// </summary>
+        public bool IsCastButtonVisible
+        {
+            get => (bool)GetValue(IsCastButtonVisibleProperty);
+            set => SetValue(IsCastButtonVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsCastEnabled"/> dependency property.
+        /// </summary>
+        public static DependencyProperty IsCastEnabledProperty { get; } = DependencyProperty.Register(nameof(IsCastEnabledProperty), typeof(bool), typeof(MediaTransportControls),
+            new PropertyMetadata(true, (d, e) => ((MediaTransportControls)d).UpdateCastButton()));
+        /// <summary>
+        /// Gets or sets a value indicating whether a user can zoom the media.
+        /// </summary>
+        public bool IsCastEnabled
+        {
+            get => (bool)GetValue(IsCastEnabledProperty);
+            set => SetValue(IsCastEnabledProperty, value);
         }
 
         /// <summary>
@@ -494,6 +523,7 @@ namespace VLC
             PlayPauseButton = GetTemplateChild("PlayPauseButton") as FrameworkElement;
             PlayPauseButtonOnLeft = GetTemplateChild("PlayPauseButtonOnLeft") as FrameworkElement;
             ZoomButton = GetTemplateChild("ZoomButton") as FrameworkElement;
+            CastButton = GetTemplateChild("CastButton") as FrameworkElement;
             FullWindowButton = GetTemplateChild("FullWindowButton") as FrameworkElement;
             CompactOverlayModeButton = GetTemplateChild("CompactOverlayModeButton") as FrameworkElement;
             StopButton = GetTemplateChild("StopButton") as FrameworkElement;
@@ -535,6 +565,7 @@ namespace VLC
             SetButtonClick(PlayPauseButtonOnLeft, PlayPauseButton_Click);
             SetButtonClick(PlayPauseButton, PlayPauseButton_Click);
             SetButtonClick(ZoomButton, ZoomButton_Click);
+            SetButtonClick(CastButton, CastButton_Click);
             SetButtonClick(FullWindowButton, FullWindowButton_Click);
             SetButtonClick(CompactOverlayModeButton, CompactOverlayModeButton_ClickAsync);
             SetButtonClick(StopButton, StopButton_Click);
@@ -560,6 +591,7 @@ namespace VLC
             UpdateSeekBarVisibility();
             UpdatePlayPauseButton();
             UpdateZoomButton();
+            UpdateCastButton();
             UpdateFullWindowButton();
             UpdateCompactOverlayModeButton();
             UpdateStopButton();
@@ -871,6 +903,11 @@ namespace VLC
             UpdateControl(ZoomButton, IsZoomButtonVisible, IsZoomEnabled);
         }
 
+        private void UpdateCastButton()
+        {
+            UpdateControl(CastButton, IsCastButtonVisible, IsCastEnabled);
+        }
+
         private void UpdateFullWindowButton()
         {
             UpdateControl(FullWindowButton, IsFullWindowButtonVisible && !Xbox, IsFullWindowEnabled);
@@ -911,6 +948,11 @@ namespace VLC
         private void ZoomButton_Click(object sender, RoutedEventArgs e)
         {
             MediaElement.Zoom = !MediaElement.Zoom;
+        }
+
+        private void CastButton_Click(object sender, RoutedEventArgs e)
+        {
+            MediaElement.RendererFlyout.ShowAt(sender as FrameworkElement);
         }
 
         private void DeinterlaceModeMenuItem_Click(object sender, RoutedEventArgs e)

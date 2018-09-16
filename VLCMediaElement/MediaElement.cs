@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using libVLCX;
 using Nito.AsyncEx;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Diagnostics;
 using Windows.Media.Devices;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
@@ -94,6 +98,10 @@ namespace VLC
         private Instance Instance { get; set; }
         private Media Media { get; set; }
         private LoggingChannel LoggingChannel { get; set; }
+        private Visibility HasRenderer => RendererItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+        private RendererDiscoverer RendererDiscoverer { get; set; }
+        private bool RendererDiscovererEnabled { get; set; }
+        private ObservableCollection<RendererItem> RendererItems { get; } = new ObservableCollection<RendererItem>();
         private AsyncLock SourceChangedMutex { get; } = new AsyncLock();
         private bool UpdatingPosition { get; set; }
 
@@ -354,6 +362,55 @@ namespace VLC
         }
 
         /// <summary>
+        /// Gets or sets the options for the media
+        /// </summary>
+        public MenuFlyout RendererFlyout
+        {
+            get
+            {
+                var flyout = new MenuFlyout();
+
+                if (RendererDiscoverer == null || RendererItems.Count == 0)
+                {
+                    flyout.Items.Add(new MenuFlyoutItem
+                    {
+                        IsEnabled = false,
+                        Text = GetText("NoCastFound")
+                    });
+                }
+                else
+                {
+                    foreach (var ri in RendererItems)
+                    {
+                        var menuFlyoutItem = new MenuFlyoutItem
+                        {
+                            Text = ri.name()
+                        };
+
+                        menuFlyoutItem.Click += (object sender, RoutedEventArgs e) =>
+                        {
+                            var item = sender as MenuFlyoutItem;
+                            ConnectRenderer(RendererItems.Where(rendererItem => rendererItem.name() == item.Text).First());
+                        };
+
+                        flyout.Items.Add(menuFlyoutItem);
+                    }
+
+                    var disconnectFlyoutItem = new MenuFlyoutItem
+                    {
+                        Text = GetText("DisconnectCast")
+                    };
+
+                    disconnectFlyoutItem.Click += (object sender, RoutedEventArgs e) => DisconnectRenderer();
+
+                    flyout.Items.Add(disconnectFlyoutItem);
+                }
+
+                return flyout;
+            }
+        }
+
+        /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuildinglayout pass) call ApplyTemplate. 
         /// In simplest terms, this means the method is called just before a UI element displays in your app.
         /// Override this method to influence the default post-template logic of a class.
@@ -482,6 +539,29 @@ namespace VLC
             MediaDevice.DefaultAudioRenderDeviceChanged += (sender, e) => { if (e.Role == AudioDeviceRole.Default) { AudioDeviceId = e.Id; } };
 
             await OnMediaSourceChangedAsync();
+
+            NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+            NetworkInformation_NetworkStatusChanged(this);
+        }
+
+        private void NetworkInformation_NetworkStatusChanged(object sender)
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (connectionProfile.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.None)
+                StartSearchForRendererItems();
+            else
+                StopSearchForRendererItems();
+        }
+
+        private string GetText(string resource, params string[] args)
+        {
+            var resourceLoader = ResourceLoader.GetForCurrentView("VLC/Resources");
+
+            if (resourceLoader == null)
+                return "";
+
+            return string.Format(resourceLoader.GetString(resource), args.Select(arg => resourceLoader.GetString(arg)).Cast<object>().ToArray());
         }
 
         private void OnLog(LogLevel level, string message)
@@ -634,6 +714,66 @@ namespace VLC
                     Play();
                 }
             });
+        }
+
+        private void ConnectRenderer(RendererItem rendererItem)
+        {
+            var result = MediaPlayer?.setRenderer(rendererItem);
+        }
+
+        private void DisconnectRenderer()
+        {
+            MediaPlayer?.unsetRenderer();
+        }
+
+        private void StartSearchForRendererItems()
+        {
+            // If Instance is null we can not search for RendererItems
+            if (Instance == null || RendererDiscovererEnabled)
+                return;
+
+            //Create a new RendererDiscoverer to find Chromecast devices
+            RendererDiscoverer = new RendererDiscoverer(Instance, Instance.rendererDiscoverers().First().name());
+
+            //Raise change events
+            RendererDiscoverer.eventManager().OnItemAdded += OnOnItemAdded;
+            RendererDiscoverer.eventManager().OnRendererItemDeleted += OnOnRendererItemDeleted;
+
+            //Start discoverer
+            RendererDiscovererEnabled = true;
+            RendererDiscoverer.start();
+        }
+
+        private void StopSearchForRendererItems()
+        {
+            if (!RendererDiscovererEnabled)
+                return;
+
+            DisconnectRenderer();
+
+            RendererDiscovererEnabled = false;
+            RendererDiscoverer.stop();
+            RendererDiscoverer.eventManager().OnItemAdded -= OnOnItemAdded;
+            RendererDiscoverer.eventManager().OnRendererItemDeleted -= OnOnRendererItemDeleted;
+            RendererDiscoverer = null;
+
+            RendererItems.Clear();
+        }
+
+        private async void OnOnRendererItemDeleted(RendererItem __param0)
+        {
+            OnLog(LogLevel.Notice, $"Chromecast device '{__param0.name()}' deleted");
+            RendererItems.Remove(__param0);
+
+            //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => Instance.(HasRenderer));
+        }
+
+        private async void OnOnItemAdded(RendererItem __param0)
+        {
+            OnLog(LogLevel.Notice, $"New Chromecast device founded with name '{__param0.name()}', canRenderVideo={__param0.canRenderVideo()}, canRenderAudio={__param0.canRenderAudio()}");
+            RendererItems.Add(__param0);
+
+            //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => (HasRenderer));
         }
 
         private async Task UpdateStateAsync(MediaElementState state)

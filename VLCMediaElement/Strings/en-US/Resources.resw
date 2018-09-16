@@ -159,6 +159,9 @@
   <data name="DeinterlaceMode_Yadif2x" xml:space="preserve">
     <value>Yadif (2x)</value>
   </data>
+  <data name="DisconnectCast" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
   <data name="ExitFullScreen" xml:space="preserve">
     <value>Exit Full Screen</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="Mute" xml:space="preserve">
     <value>Mute</value>
+  </data>
+  <data name="NoCastFound" xml:space="preserve">
+    <value>No cast device found</value>
   </data>
   <data name="None" xml:space="preserve">
     <value>None</value>

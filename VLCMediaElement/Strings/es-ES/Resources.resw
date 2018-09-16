@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="All" xml:space="preserve">
-    <value>Tous</value>
+    <value>Todo</value>
   </data>
   <data name="AspectRatio" xml:space="preserve">
-    <value>Proportions</value>
+    <value>Modo de pantalla</value>
   </data>
   <data name="DeinterlaceFilter" xml:space="preserve">
-    <value>Filtre de désentrelacement</value>
+    <value>Filtro de desentrelazado</value>
   </data>
   <data name="DeinterlaceMode_Blend" xml:space="preserve">
-    <value>Fondu</value>
+    <value>Blend</value>
   </data>
   <data name="DeinterlaceMode_Bob" xml:space="preserve">
     <value>Bob</value>
   </data>
   <data name="DeinterlaceMode_Disabled" xml:space="preserve">
-    <value>Désactivé</value>
+    <value>Desactivado</value>
   </data>
   <data name="DeinterlaceMode_Discard" xml:space="preserve">
-    <value>Ignorer</value>
+    <value>Descartar</value>
   </data>
   <data name="DeinterlaceMode_IVTC" xml:space="preserve">
-    <value>Film NTSC (IVTC)</value>
+    <value>Película NTSC (IVTC)</value>
   </data>
   <data name="DeinterlaceMode_Linear" xml:space="preserve">
-    <value>Linéaire</value>
+    <value>Linear</value>
   </data>
   <data name="DeinterlaceMode_Mean" xml:space="preserve">
-    <value>Moyenne</value>
+    <value>Mean</value>
   </data>
   <data name="DeinterlaceMode_Phosphor" xml:space="preserve">
-    <value>Phosphore</value>
+    <value>Phosphor</value>
   </data>
   <data name="DeinterlaceMode_X" xml:space="preserve">
     <value>X</value>
@@ -160,51 +160,51 @@
     <value>Yadif (2x)</value>
   </data>
   <data name="DisconnectCast" xml:space="preserve">
-    <value>Disconnect</value>
+    <value>Desconectar</value>
   </data>
   <data name="ExitFullScreen" xml:space="preserve">
-    <value>Quitter le mode plein écran</value>
+    <value>Salir de pantalla completa</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Plein écran</value>
+    <value>Pantalla completa</value>
   </data>
   <data name="LeaveMiniView" xml:space="preserve">
-    <value>Quitter la vue miniature</value>
+    <value>Salir de minivista</value>
   </data>
   <data name="Mute" xml:space="preserve">
-    <value>Muet</value>
+    <value>Sin sonido</value>
   </data>
   <data name="NoCastFound" xml:space="preserve">
-    <value>No cast device found</value>
+    <value>No se encontró ningun dispositivo</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Aucun</value>
+    <value>Ninguno</value>
   </data>
   <data name="One" xml:space="preserve">
-    <value>Un</value>
+    <value>Uno</value>
   </data>
   <data name="Pause" xml:space="preserve">
-    <value>Suspendre</value>
+    <value>Pause</value>
   </data>
   <data name="Play" xml:space="preserve">
-    <value>Lecture</value>
+    <value>Play</value>
   </data>
   <data name="PlayInMiniView" xml:space="preserve">
-    <value>Lire en vue miniature</value>
+    <value>Reproducir en minivista</value>
   </data>
   <data name="Repeat" xml:space="preserve">
-    <value>Répéter {0}</value>
+    <value>Repetir {0}</value>
   </data>
   <data name="ShowAudioSelectionMenu" xml:space="preserve">
-    <value>Afficher le menu de sélection audio</value>
+    <value>Mostar menú de selección de audio</value>
   </data>
   <data name="ShowClosedCaptionMenu" xml:space="preserve">
-    <value>Afficher le menu des sous-titres</value>
+    <value>Mostrar más</value>
   </data>
   <data name="Stop" xml:space="preserve">
-    <value>Arrêter</value>
+    <value>Parar</value>
   </data>
   <data name="Volume" xml:space="preserve">
-    <value>Volume</value>
+    <value>Volumen</value>
   </data>
 </root>
