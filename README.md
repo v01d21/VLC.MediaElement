@@ -20,7 +20,7 @@ xmlns:vlc="using:VLC"
 </vlc:MediaElement>
 ```
 
-![VLC.MediaElement screenshot](http://freemiupnp.fr/tv/VLC.MediaElement.png)
+![VLC.MediaElement screenshot](https://raw.githubusercontent.com/v01d21/VLC.MediaElement/master/preview.png)
 
 ## How To
 - How to play a file using a FileOpenPicker ?
