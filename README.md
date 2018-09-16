@@ -42,6 +42,7 @@ if (file != null)
 
 ## Added properties
 There are some added properties compared to the classic MediaElement :
+- ChromecastSend : you can send the content to a chromecast device
 - DeinterlaceMode : the deinterlace mode (Bob, Mean, Linear, X, Yadif, Yadif2x, ...) - only works if HardwareAcceleration is set to false.
 - HardwareAcceleration : a value indicating whether the hardware acceleration must be used or not.
 - Options : a dictionary to add some options to the media (see [VLC command-line help](https://wiki.videolan.org/VLC_command-line_help/)). This property must be defined before setting the source.
@@ -53,8 +54,3 @@ On VLC.MediaTransportControls :
 - CursorAutoHide : indicates whether the mouse cursor must be hidden automatically or not.
 - IsDeinterlaceModeButtonEnabled : indicates whether the user can choose a deinterlace mode.
 - IsDeinterlaceModeButtonVisible : indicates whether the deinterlace mode button must be shown or not.
- 
-## Download
-Windows Runtime Component : [![NuGet](https://img.shields.io/nuget/v/VLC.MediaElement.svg)](https://www.nuget.org/packages/VLC.MediaElement)
-
-Class Library : [![NuGet](https://img.shields.io/nuget/v/VLC.MediaElement.ClassLibrary.svg)](https://www.nuget.org/packages/VLC.MediaElement.ClassLibrary)
