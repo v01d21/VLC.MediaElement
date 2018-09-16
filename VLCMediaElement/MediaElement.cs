@@ -760,7 +760,7 @@ namespace VLC
             RendererItems.Clear();
         }
 
-        private async void OnOnRendererItemDeleted(RendererItem __param0)
+        private void OnOnRendererItemDeleted(RendererItem __param0)
         {
             OnLog(LogLevel.Notice, $"Chromecast device '{__param0.name()}' deleted");
             RendererItems.Remove(__param0);
@@ -768,7 +768,7 @@ namespace VLC
             //await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => Instance.(HasRenderer));
         }
 
-        private async void OnOnItemAdded(RendererItem __param0)
+        private void OnOnItemAdded(RendererItem __param0)
         {
             OnLog(LogLevel.Notice, $"New Chromecast device founded with name '{__param0.name()}', canRenderVideo={__param0.canRenderVideo()}, canRenderAudio={__param0.canRenderAudio()}");
             RendererItems.Add(__param0);
