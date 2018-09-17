@@ -54,3 +54,5 @@ On VLC.MediaTransportControls :
 - CursorAutoHide : indicates whether the mouse cursor must be hidden automatically or not.
 - IsDeinterlaceModeButtonEnabled : indicates whether the user can choose a deinterlace mode.
 - IsDeinterlaceModeButtonVisible : indicates whether the deinterlace mode button must be shown or not.
+## Download
+No nuget package available yet, you need to download from here and add to your project manually.
