@@ -1,7 +1,7 @@
 # VLC.MediaElement for UWP
 MediaElement clone with Chromecast support powered by VLC. (Original at [here](https://github.com/kakone/VLC.MediaElement))
 
-It's just a little control, all the hard work is done by [kakone](https://github.com/kakone) and [VLC](https://code.videolan.org/videolan/vlc-winrt). So, thanks to the VLC team !
+It's just a little control, all the hard work is done by [kakone](https://github.com/kakone) and [VLC](https://code.videolan.org/videolan/vlc-winrt). So, thanks to both of you !
 
 ## Usage
 Requires Windows 10 Anniversary Edition and matching Windows SDK.
