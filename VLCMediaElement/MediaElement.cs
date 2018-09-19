@@ -98,7 +98,7 @@ namespace VLC
         private Instance Instance { get; set; }
         private Media Media { get; set; }
         private LoggingChannel LoggingChannel { get; set; }
-        private Visibility HasRenderer => RendererItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+        private RendererItem LastRendererItem { get; set; } = null;
         private RendererDiscoverer RendererDiscoverer { get; set; }
         private bool RendererDiscovererEnabled { get; set; }
         private ObservableCollection<RendererItem> RendererItems { get; } = new ObservableCollection<RendererItem>();
@@ -288,7 +288,13 @@ namespace VLC
         public string Source
         {
             get => GetValue(SourceProperty) as string;
-            set => SetValue(SourceProperty, value);
+            set
+            {
+                SetValue(SourceProperty, value);
+                
+                if (LastRendererItem != null)
+                    ConnectRenderer(LastRendererItem);
+            }
         }
 
         /// <summary>
@@ -302,7 +308,13 @@ namespace VLC
         public IMediaSource MediaSource
         {
             get => GetValue(MediaSourceProperty) as IMediaSource;
-            set => SetValue(MediaSourceProperty, value);
+            set
+            {
+                SetValue(MediaSourceProperty, value);
+                
+                if (LastRendererItem != null)
+                    ConnectRenderer(LastRendererItem);
+            }
         }
 
         /// <summary>
@@ -362,7 +374,7 @@ namespace VLC
         }
 
         /// <summary>
-        /// Gets or sets the options for the media
+        /// Gets the flyout menu with the available chromecasts on your network
         /// </summary>
         public MenuFlyout RendererFlyout
         {
@@ -548,7 +560,7 @@ namespace VLC
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
-            if (connectionProfile.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.None)
+            if (connectionProfile?.GetNetworkConnectivityLevel() != NetworkConnectivityLevel.None)
                 StartSearchForRendererItems();
             else
                 StopSearchForRendererItems();
@@ -716,14 +728,18 @@ namespace VLC
             });
         }
 
-        private void ConnectRenderer(RendererItem rendererItem)
+        private bool ConnectRenderer(RendererItem rendererItem)
         {
-            var result = MediaPlayer?.setRenderer(rendererItem);
+            LastRendererItem = rendererItem;
+
+            return MediaPlayer?.setRenderer(LastRendererItem);
         }
 
         private void DisconnectRenderer()
         {
             MediaPlayer?.unsetRenderer();
+
+            LastRendererItem = null;
         }
 
         private void StartSearchForRendererItems()
