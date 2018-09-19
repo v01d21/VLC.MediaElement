@@ -6,6 +6,8 @@ It's just a little control, all the hard work is done by [kakone](https://github
 ## Usage
 Requires Windows 10 Anniversary Edition and matching Windows SDK.
 
+If you are going to use this project at your own app you should add *privateNetworkClientServer* to capabilities into the *Package.appxmanifest* file.
+
 Add [the NuGet package](https://www.nuget.org/packages/VLC.MediaElement) to your project and use it as the classic [MediaElement](https://msdn.microsoft.com/library/windows/apps/mt187272.aspx) (don't forget the Internet (Client) capability for this sample code) :
 
 ```
