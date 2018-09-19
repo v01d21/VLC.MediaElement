@@ -44,7 +44,7 @@ if (file != null)
 
 ## Added properties
 There are some added properties compared to the classic MediaElement :
-- ChromecastSend : you can send the content to a chromecast device
+- RendererFlyout : chromecast devices flyout that is used at the chromecast default button, but you can even use it in your own button and disable the AreTransportControls property.
 - DeinterlaceMode : the deinterlace mode (Bob, Mean, Linear, X, Yadif, Yadif2x, ...) - only works if HardwareAcceleration is set to false.
 - HardwareAcceleration : a value indicating whether the hardware acceleration must be used or not.
 - Options : a dictionary to add some options to the media (see [VLC command-line help](https://wiki.videolan.org/VLC_command-line_help/)). This property must be defined before setting the source.
